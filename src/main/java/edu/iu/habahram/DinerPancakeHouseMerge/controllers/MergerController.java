@@ -24,7 +24,7 @@ public class MergerController {
     private final PancakeHouseRepository pancakeHouseRepository;
     private final CafeRepository cafeRepository;
 
-    public MergerController(DinerRepository dinerRepository, PancakeHouseRepository pancakeHouseRepository) {
+    public MergerController(DinerRepository dinerRepository, PancakeHouseRepository pancakeHouseRepository, CafeRepository cafeRepository) {
         this.dinerRepository = dinerRepository;
         this.pancakeHouseRepository = pancakeHouseRepository;
         this.cafeRepository = cafeRepository;
