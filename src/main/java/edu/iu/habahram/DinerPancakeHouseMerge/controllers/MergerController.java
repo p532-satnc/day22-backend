@@ -1,17 +1,16 @@
 package edu.iu.habahram.DinerPancakeHouseMerge.controllers;
+import edu.iu.habahram.DinerPancakeHouseMerge.model.Menu;
 import edu.iu.habahram.DinerPancakeHouseMerge.model.MenuItem;
 import edu.iu.habahram.DinerPancakeHouseMerge.repository.CafeRepository;
 import edu.iu.habahram.DinerPancakeHouseMerge.repository.DinerRepository;
+import edu.iu.habahram.DinerPancakeHouseMerge.repository.MergerRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import edu.iu.habahram.DinerPancakeHouseMerge.repository.PancakeHouseRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,27 +19,23 @@ import java.util.stream.Stream;
 @RequestMapping("/merger")
 
 public class MergerController {
-    private final DinerRepository dinerRepository;
-    private final PancakeHouseRepository pancakeHouseRepository;
-    private final CafeRepository cafeRepository;
+    private final MergerRepository mergerRepository;
 
-    public MergerController(DinerRepository dinerRepository, PancakeHouseRepository pancakeHouseRepository) {
-        this.dinerRepository = dinerRepository;
-        this.pancakeHouseRepository = pancakeHouseRepository;
-        this.cafeRepository = cafeRepository;
+    public MergerController(MergerRepository mergerRepository) {
+        this.mergerRepository = mergerRepository;
     }
 
     @GetMapping
     public List<MenuItem> getMergedMenu() {
-        List<MenuItem> dinerMenu = Arrays.asList(dinerRepository.getTheMenu());
-        List<MenuItem> pancakeMenu = pancakeHouseRepository.getTheMenu();
-        List<MenuItem> cafeMenu = (List<MenuItem>) cafeRepository.getTheMenu();
-
-        // ✅ Merge all menus in order, no sorting
         List<MenuItem> mergedMenu = new ArrayList<>();
-        mergedMenu.addAll(dinerMenu);
-        mergedMenu.addAll(pancakeMenu);
-        mergedMenu.addAll(cafeMenu);
+
+        ArrayList<Menu> menus = mergerRepository.getTheMenus();
+        for (Menu menu : menus) {
+            Iterator<MenuItem> iterator = menu.createIterator();
+            while (iterator.hasNext()) {
+                mergedMenu.add(iterator.next());
+            }
+        }
 
         return mergedMenu;
     }
