@@ -27,7 +27,7 @@ public class DinerMenu extends Menu{
     public void addItem(String name, String description,
                         boolean vegetarian, double price)
     {
-        MenuItem menuItem = new MenuItem(name, description, vegetarian, price);
+        MenuItem menuItem = new MenuItem(name, description, vegetarian, price, this.name);
         add(menuItem);
     }
 

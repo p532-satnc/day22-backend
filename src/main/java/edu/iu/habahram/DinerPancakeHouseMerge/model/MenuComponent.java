@@ -27,4 +27,8 @@ public abstract class MenuComponent {
     public MenuItem[] getItems() {
         throw new UnsupportedOperationException();
     }
+
+    public String getParentName() {
+        throw new UnsupportedOperationException();
+    }
 }

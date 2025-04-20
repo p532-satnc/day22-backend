@@ -5,16 +5,23 @@ public class MenuItem extends MenuComponent{
     String description;
     boolean vegetarian;
     double price;
+    String parentMenuName;
 
     public MenuItem(String name,
                     String description,
                     boolean vegetarian,
-                    double price)
+                    double price,
+                    String parentMenuName)
     {
         this.name = name;
         this.description = description;
         this.vegetarian = vegetarian;
         this.price = price;
+        this.parentMenuName = parentMenuName;
+    }
+
+    public String getParentMenuName() {
+        return parentMenuName;
     }
 
     public String getName() {
