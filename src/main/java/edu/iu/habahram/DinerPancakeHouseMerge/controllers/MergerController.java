@@ -1,6 +1,8 @@
 package edu.iu.habahram.DinerPancakeHouseMerge.controllers;
+import edu.iu.habahram.DinerPancakeHouseMerge.model.Customer;
 import edu.iu.habahram.DinerPancakeHouseMerge.model.MenuItemRecord;
 import edu.iu.habahram.DinerPancakeHouseMerge.repository.MergerRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -45,9 +47,8 @@ public class MergerController {
     }
 
     @PostMapping("/signup")
-    public String signup(@RequestParam String username,
-                         @RequestParam String password,
-                         @RequestParam String email) {
-        return mergerRepository.saveCustomer(username, password, email);
+    public ResponseEntity<String> signup(@RequestBody Customer customer) {
+        String result = mergerRepository.saveCustomer(customer.username(), customer.password(), customer.email());
+        return ResponseEntity.ok(result);
     }
 }

@@ -33,23 +33,31 @@ public class MergerRepository {
     }
 
     public Map<String, List<MenuItemRecord>> getTheMenuItemsWithMenus() {
-        MenuComponent allMenus = new Menu("ALL MENUS", "All menus combined");
-        allMenus.add(new DinerMenu("DINER MENU", "Lunch"));
-        allMenus.add(new PancakeHouseMenu("PANCAKE HOUSE MENU", "Breakfast"));
-        allMenus.add(new CafeMenu("CAFE MENU", "Dinner"));
+        Menu dinerMenu = new DinerMenu("DINER MENU", "Lunch");
+        Menu pancakeMenu = new PancakeHouseMenu("PANCAKE HOUSE MENU", "Breakfast");
+        Menu cafeMenu = new CafeMenu("CAFE MENU", "Dinner");
 
         Map<String, List<MenuItemRecord>> map = new HashMap<>();
-        CompositeIterator iterator = new CompositeIterator();
+
+        // Helper function to add items from a menu to the map
+        addMenuItemsToMap(map, dinerMenu);
+        addMenuItemsToMap(map, pancakeMenu);
+        addMenuItemsToMap(map, cafeMenu);
+
+        return map;
+    }
+
+    private void addMenuItemsToMap(Map<String, List<MenuItemRecord>> map, Menu menu) {
+        String menuName = menu.getName();
+        Iterator<MenuItem> iterator = menu.createIterator();
+        List<MenuItemRecord> records = new ArrayList<>();
 
         while (iterator.hasNext()) {
-            MenuComponent component = (MenuComponent) iterator.next();
-            if (component instanceof MenuItem item) {
-                String parentMenu = component.getParentName();
-                map.computeIfAbsent(parentMenu, k -> new ArrayList<>())
-                        .add(new MenuItemRecord(item.getName(), item.getDescription(), item.isVegetarian(), item.getPrice()));
-            }
+            MenuItem item = iterator.next();
+            records.add(new MenuItemRecord(item.getName(), item.getDescription(), item.isVegetarian(), item.getPrice()));
         }
-        return map;
+
+        map.put(menuName, records);
     }
 
     public String saveCustomer(String username, String password, String email) {
@@ -62,5 +70,4 @@ public class MergerRepository {
             return "Failed to save customer.";
         }
     }
-
 }
